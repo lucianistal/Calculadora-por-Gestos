@@ -43,7 +43,7 @@ python src/gest-calc/calculadora.py
 - **1-5**: Dedos levantados en una mano
 - **6-9**: Suma de dedos de ambas manos
 - **0**: Gesto OK (una mano, circulo hueco)
-- **Punto (.)**: Gesto OK con ambas manos
+- **Coma (.)**: Gesto OK con ambas manos
 
 ### Operaciones
 - **Suma (+)**: Brazo derecho levantado
