@@ -23,13 +23,13 @@ class Button:
                     cv2.FONT_HERSHEY_PLAIN, 3, (50, 50, 50), 3)
 
 
-# -------- CONFIGURACIÓN CÁMARA --------
+# ------ CONFIGURACIÓN CÁMARA ------
 cap = cv2.VideoCapture(0)
 WIDTH, HEIGHT = 1280, 720
 cap.set(3, WIDTH)
 cap.set(4, HEIGHT)
 
-# -------- BOTONES VISUALES --------
+# ------- BOTONES VISUALES -------
 buttonListValues = [['C', '<'],
                     ['7', '8', '9', '/'],
                     ['4', '5', '6', '*'],
@@ -48,7 +48,7 @@ for y in range(5):
         width = 200 if y == 0 else 100
         buttonlist.append(Button((xpos, ypos), width, 100, buttonListValues[y][x]))
 
-# -------- MEDIAPIPE --------
+# ---- MEDIAPIPE -----
 mp_hands = mp.solutions.hands
 mp_face = mp.solutions.face_mesh
 mp_pose = mp.solutions.pose
@@ -56,7 +56,7 @@ hands = mp_hands.Hands(max_num_hands=2, min_detection_confidence=0.7)
 face_mesh = mp_face.FaceMesh(min_detection_confidence=0.7)
 pose = mp_pose.Pose(min_detection_confidence=0.7, min_tracking_confidence=0.7)
 
-# -------- VARIABLES --------
+# ------- VARIABLES --------
 operation = ""
 last_action_time = time.time()
 last_detect_time = time.time()
@@ -65,7 +65,7 @@ auto_equal_time = 6
 stable_count = 0
 last_gesture = None
 
-# -------- FUNCIONES --------
+# ------ FUNCIONES -------
 def contar_dedos(hand_landmarks, hand_label):
     dedos = []
     tip_ids = [4, 8, 12, 16, 20]
@@ -182,14 +182,14 @@ def detectar_brazo_arriba(pose_landmarks):
 
 def detectar_gestos(results_hands, results_face, results_pose):
 
-    # --- Prioridad 1: Brazos levantados (suma y resta) ---
+    # ---Brazos levantados (suma y resta)---
     brazo = detectar_brazo_arriba(results_pose.pose_landmarks if results_pose else None)
     if brazo == 'derecho':
         return "+", "suma (brazo derecho arriba)"
     elif brazo == 'izquierdo':
         return "-", "resta (brazo izquierdo arriba)"
 
-    # --- Prioridad 2: Cara (borrar / limpiar) ---
+    # --- Cara (borrar / limpiar) ---
     if results_face.multi_face_landmarks:
         for faceLms in results_face.multi_face_landmarks:
             roll = inclinacion_cabeza(faceLms)
@@ -198,7 +198,7 @@ def detectar_gestos(results_hands, results_face, results_pose):
             elif roll > 15:
                 return "C", "limpiar (inclinacion der)"
 
-    # --- Prioridad 3: Manos ---
+    # --- Manos ---
     if not results_hands.multi_hand_landmarks:
         return None, None
 
@@ -252,7 +252,7 @@ def detectar_gestos(results_hands, results_face, results_pose):
     return None, None
 
 
-# -------- BUCLE PRINCIPAL --------
+# ------- BUCLE PRINCIPAL ------
 while True:
     success, img = cap.read()
     if not success:
